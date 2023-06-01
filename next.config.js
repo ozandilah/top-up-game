@@ -11,6 +11,9 @@ const nextConfig = {
     });
     return config;
   },
+  images: {
+    domains: ["example1.icodie.com"],
+  },
 };
 
 module.exports = nextConfig;
