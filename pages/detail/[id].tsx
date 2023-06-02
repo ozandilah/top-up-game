@@ -25,11 +25,8 @@ export default function Detail() {
 
   const getVoucherDetailAPI = useCallback(async (id: string) => {
     const data = await getDetailVoucher(id);
-    console.log("====================================");
-    console.log("data: ", data);
-    console.log("====================================");
-
     setDataItem(data.responseData);
+    localStorage.setItem("data-item", JSON.stringify(data.responseData));
     setNominals(data.responseData.nominals);
     setPayments(data.paymentData);
   }, []);

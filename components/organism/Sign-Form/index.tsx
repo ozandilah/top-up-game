@@ -1,8 +1,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import cx from "classnames";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { setLogin } from "@/services/auth";
 import { useRouter } from "next/router";
 import jwt_decode from "jwt-decode";
@@ -87,7 +86,6 @@ export default function SignForm() {
           </a>
         </Link>
       </div>
-      <ToastContainer />
     </>
   );
 }
