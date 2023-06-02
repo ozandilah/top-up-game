@@ -1,15 +1,30 @@
+import { setSignUp } from "@/services/auth";
+import { CategoryTypes } from "@/services/data-types";
 import { getGameCategory } from "@/services/player";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SignUpPhoto() {
+  const router = useRouter();
   const [categories, setCategories] = useState([]);
 
   const [favorite, setFavorite] = useState("");
 
+  const [image, setImage] = useState("");
+
+  const [preview, setPreview] = useState("/icon/uploud.svg");
+
+  const [localStorageForm, setLocalStorageForm] = useState({
+    name: "",
+    email: "",
+  });
+
   const getGameCategoryAPI = useCallback(async () => {
-    const data = await getGameCategory();
+    const data = (await getGameCategory()).data;
     console.log("data : ", data);
 
     setCategories(data);
@@ -20,10 +35,48 @@ export default function SignUpPhoto() {
     getGameCategoryAPI();
   }, []);
 
-  const onSubmit = () => {
+  useEffect(() => {
+    const getLocalForm = localStorage.getItem("user-form");
+    setLocalStorageForm(JSON.parse(getLocalForm!));
+  }, []);
+
+  const onSubmit = async () => {
     console.log("====================================");
     console.log("favorite : ", favorite);
+    console.log("image : ", image);
     console.log("====================================");
+
+    const getLocalForm = await localStorage.getItem("user-form");
+    const form = JSON.parse(getLocalForm!);
+    const data = new FormData();
+    data.append("image", image);
+    data.append("email", form.email);
+    data.append("name", form.name);
+    data.append("password", form.password);
+    data.append("username", form.name);
+    data.append("phoneNumber", "083861561577");
+    data.append("role", "user");
+    data.append("status", "Y");
+    data.append("favorite", favorite);
+
+    const result = await setSignUp(data);
+
+    if (result.error) {
+      toast.error("Email Sudah Terdaftar");
+    } else {
+      toast.success("🦄 Register Success!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      router.push("/sign-up-success");
+      localStorage.removeItem("user-form");
+    }
   };
   return (
     <>
@@ -36,10 +89,11 @@ export default function SignUpPhoto() {
                   <div className="image-upload text-center">
                     <label htmlFor="avatar">
                       <Image
-                        src="/icon/uploud.svg"
+                        src={preview}
                         width={120}
                         height={120}
                         alt="Upload"
+                        className="img-upload"
                       />
                     </label>
                     <input
@@ -47,14 +101,19 @@ export default function SignUpPhoto() {
                       type="file"
                       name="avatar"
                       accept="image/png, image/jpeg"
+                      onChange={(event) => {
+                        const img = event.target.files[0];
+                        setPreview(URL.createObjectURL(img));
+                        return setImage(img);
+                      }}
                     />
                   </div>
                 </div>
                 <h2 className="fw-bold text-xl text-center color-palette-1 m-0">
-                  Shayna Anne
+                  {localStorageForm.name}
                 </h2>
                 <p className="text-lg text-center color-palette-1 m-0">
-                  shayna@anne.com
+                  {localStorageForm.email}
                 </p>
                 <div className="pt-50 pb-50">
                   <label
@@ -71,7 +130,7 @@ export default function SignUpPhoto() {
                     value={favorite}
                     onChange={(event) => setFavorite(event.target.value)}
                   >
-                    {categories.map((category) => {
+                    {categories.map((category: CategoryTypes) => {
                       return (
                         <option
                           key={category._id}
@@ -107,6 +166,7 @@ export default function SignUpPhoto() {
             </div>
           </form>
         </div>
+        <ToastContainer />
       </section>
     </>
   );

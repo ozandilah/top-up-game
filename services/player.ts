@@ -1,16 +1,18 @@
+import callAPI from "@/config/api";
 import axios from "axios";
 
 const ROOT_API = process.env.NEXT_PUBLIC_API;
 const API_VERSION = "api/v1";
 
 export async function getFeaturedGame() {
-  const URL = "players/landingpage";
+  const url = `${ROOT_API}/${API_VERSION}/players/landingpage`;
+  const data = {};
 
-  const response = await axios.get(`${ROOT_API}/${API_VERSION}/${URL}`);
-
-  const axiosResponse = response.data;
-
-  return axiosResponse.data;
+  return callAPI({
+    url,
+    method: "GET",
+    data,
+  });
 }
 
 export async function getDetailVoucher(id: string) {
@@ -25,10 +27,12 @@ export async function getDetailVoucher(id: string) {
 }
 
 export async function getGameCategory() {
-  const URL = `players/category`;
-  const response = await axios.get(`${ROOT_API}/${API_VERSION}/${URL}`);
+  const url = `${ROOT_API}/${API_VERSION}/players/category`;
+  const data = {};
 
-  const axiosResponse = response.data;
-
-  return axiosResponse.data;
+  return callAPI({
+    url,
+    method: "GET",
+    data,
+  });
 }
