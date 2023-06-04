@@ -18,6 +18,12 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "/vercel/path0/pages/404.tsx",
+    "src"
+  ],
   "exclude": ["node_modules", "stories"]
 }
