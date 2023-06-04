@@ -13,9 +13,9 @@ export default function SignUpPhoto() {
 
   const [favorite, setFavorite] = useState("");
 
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<any>("");
 
-  const [preview, setPreview] = useState("/icon/uploud.svg");
+  const [preview, setPreview] = useState<any>(null);
 
   const [localStorageForm, setLocalStorageForm] = useState({
     name: "",
@@ -24,7 +24,6 @@ export default function SignUpPhoto() {
 
   const getGameCategoryAPI = useCallback(async () => {
     const data = (await getGameCategory()).data;
-    console.log("data : ", data);
 
     setCategories(data);
     setFavorite(data[0]._id);
@@ -40,14 +39,10 @@ export default function SignUpPhoto() {
   }, []);
 
   const onSubmit = async () => {
-    console.log("====================================");
-    console.log("favorite : ", favorite);
-    console.log("image : ", image);
-    console.log("====================================");
-
     const getLocalForm = await localStorage.getItem("user-form");
     const form = JSON.parse(getLocalForm!);
     const data = new FormData();
+
     data.append("image", image);
     data.append("email", form.email);
     data.append("name", form.name);
@@ -87,13 +82,20 @@ export default function SignUpPhoto() {
                 <div className="mb-20">
                   <div className="image-upload text-center">
                     <label htmlFor="avatar">
-                      <Image
-                        src={preview}
-                        width={120}
-                        height={120}
-                        alt="Upload"
-                        className="img-upload"
-                      />
+                      {preview ? (
+                        <img
+                          src={preview}
+                          className="img-upload"
+                          alt="upload"
+                        />
+                      ) : (
+                        <Image
+                          src="/icon/upload.svg"
+                          width={120}
+                          height={120}
+                          alt="upload"
+                        />
+                      )}
                     </label>
                     <input
                       id="avatar"
@@ -101,7 +103,7 @@ export default function SignUpPhoto() {
                       name="avatar"
                       accept="image/png, image/jpeg"
                       onChange={(event) => {
-                        const img = event.target.files[0];
+                        const img = event.target.files![0];
                         setPreview(URL.createObjectURL(img));
                         return setImage(img);
                       }}

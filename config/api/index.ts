@@ -1,14 +1,39 @@
+import { JWTPayloadTypes, userTypes } from "@/services/data-types";
 import axios, { AxiosRequestConfig } from "axios";
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
+
+interface callAPIProps extends AxiosRequestConfig {
+  token?: boolean;
+  serverToken?: string;
+}
 
 export default async function callAPI({
   url,
   method,
   data,
-}: AxiosRequestConfig) {
+  token,
+  serverToken,
+}: callAPIProps) {
+  let headers = {};
+  if (serverToken) {
+    headers = {
+      Authorization: `Bearer ${serverToken}`,
+    };
+  } else if (token) {
+    const tokenCookies = Cookies.get("token");
+    if (tokenCookies) {
+      const jwtToken = atob(tokenCookies);
+      headers = {
+        Authorization: `Bearer ${jwtToken}`,
+      };
+    }
+  }
   const response = await axios({
     url,
     method,
     data,
+    headers,
   }).catch((error) => error.response);
 
   if (response.status > 300) {
@@ -19,11 +44,11 @@ export default async function callAPI({
     };
     return res;
   }
-
+  const { length } = Object.keys(response.data);
   const res = {
     error: false,
     message: "success",
-    data: response.data.data,
+    data: length > 1 ? response.data : response.data.data,
   };
 
   return res;

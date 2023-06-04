@@ -1,11 +1,10 @@
-import Link from "next/link";
-import React, { useState } from "react";
-import cx from "classnames";
-import { toast } from "react-toastify";
 import { setLogin } from "@/services/auth";
-import { useRouter } from "next/router";
-import jwt_decode from "jwt-decode";
+import cx from "classnames";
 import Cookies from "js-cookie";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function SignForm() {
   const router = useRouter();

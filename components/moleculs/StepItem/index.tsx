@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React, { ReactNode } from "react";
 export interface IconProps {
   icon: "/icon/stepOne.svg" | "/icon/stepTwo.svg" | "/icon/stepThree.svg";
   title: string;

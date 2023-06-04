@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 
 export default function CheckoutDetail() {
-  const [dataTopUp, setDataTopUp] = useState({
+  const [dataTopUp, setDataTopUp] = useState<any>({
     verifyID: "",
     bankAccountName: "",
     nominalItem: {
@@ -24,7 +24,6 @@ export default function CheckoutDetail() {
   useEffect(() => {
     const dataFromLocal = localStorage.getItem("data-topup");
     const dataTopUpLocal = JSON.parse(dataFromLocal!);
-    console.log("Data Top Up :  ", dataTopUpLocal);
     setDataTopUp(dataTopUpLocal);
   }, []);
 

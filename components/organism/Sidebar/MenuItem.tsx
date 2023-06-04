@@ -13,10 +13,11 @@ interface MenuProps {
     | "icon-settings"
     | "icon-logout";
   active?: boolean;
-  href: string;
+  href?: string;
+  onClick?: () => void;
 }
 export default function MenuItem(props: MenuProps) {
-  const { title, icon, active, href } = props;
+  const { title, icon, active, href = "/", onClick } = props;
   const classItem = cx({
     item: true,
     "mb-30": true,
@@ -26,7 +27,7 @@ export default function MenuItem(props: MenuProps) {
   return (
     <>
       {" "}
-      <div className={classItem}>
+      <div className={classItem} onClick={onClick}>
         <Image
           src={`/icon/${icon}.svg`}
           className="me-3"
@@ -35,9 +36,13 @@ export default function MenuItem(props: MenuProps) {
           alt="icon overview"
         />
         <p className="item-title m-0">
-          <Link href={href}>
+          {onClick ? (
             <a className="text-lg text-decoration-none">{title}</a>
-          </Link>
+          ) : (
+            <Link href={href}>
+              <a className="text-lg text-decoration-none">{title}</a>
+            </Link>
+          )}
         </p>
       </div>
     </>

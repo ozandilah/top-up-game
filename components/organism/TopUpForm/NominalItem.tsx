@@ -27,8 +27,7 @@ export default function NominalItem(props: nominaProps) {
         <div className="detail-card">
           <div className="d-flex justify-content-between">
             <p className="text-3xl color-palette-1 m-0">
-              <span className="fw-medium">{coinQuantity}</span>
-              {coinName}
+              <span className="fw-medium">{`${coinQuantity} ${coinName}`}</span>
             </p>
             <svg
               id="icon-check"
@@ -42,9 +41,9 @@ export default function NominalItem(props: nominaProps) {
               <path
                 d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                 stroke="#00BAFF"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </div>

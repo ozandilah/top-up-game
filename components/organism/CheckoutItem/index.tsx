@@ -11,7 +11,6 @@ export default function CheckOutItem() {
   useEffect(() => {
     const dataFromLocal = localStorage.getItem("data-item");
     const dataItemLocal = JSON.parse(dataFromLocal!);
-    console.log(dataItemLocal);
     setDataItem(dataItemLocal);
   }, []);
 

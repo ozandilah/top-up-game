@@ -1,11 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Category from "./Category";
 import TableRow from "./TableRow";
+import { toast } from "react-toastify";
+import {
+  HistoryTransactionTypes,
+  TopUpCategoriesTypes,
+} from "@/services/data-types";
+import { getMemberOverview } from "@/services/member";
 
 export default function OverViewContent() {
+  const [count, setCount] = useState([]);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getMemberOverview();
+        if (response.error) {
+          toast.error(response.message);
+        } else {
+          setCount(response.data.count);
+          setData(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  const IMG = process.env.NEXT_PUBLIC_IMG;
   return (
     <>
-      {" "}
       <main className="main-wrapper">
         <div className="ps-lg-0">
           <h2 className="text-4xl fw-bold color-palette-1 mb-30">Overview</h2>
@@ -15,15 +40,17 @@ export default function OverViewContent() {
             </p>
             <div className="main-content">
               <div className="row">
-                <Category price={18000500} icon="icon-desktop">
-                  Game <br /> Desktop
-                </Category>
-                <Category price={5000000} icon="icon-mobile">
-                  Game <br /> Mobile
-                </Category>
-                <Category price={100000000} icon="icon-desktop">
-                  Others <br /> Categories
-                </Category>
+                {count.map((item: TopUpCategoriesTypes) => {
+                  return (
+                    <Category
+                      key={item._id}
+                      value={item.value}
+                      icon="icon-desktop"
+                    >
+                      {item.name}
+                    </Category>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -44,38 +71,19 @@ export default function OverViewContent() {
                   </tr>
                 </thead>
                 <tbody>
-                  <TableRow
-                    title="Mobile Legends"
-                    category="Desktop"
-                    item={200}
-                    price={290000}
-                    status="PENDING"
-                    image="overview-1"
-                  />
-                  <TableRow
-                    title="Call of Duty:Modern"
-                    category="Desktop"
-                    item={550}
-                    price={740000}
-                    status="SUCCESS"
-                    image="overview-2"
-                  />
-                  <TableRow
-                    title="Clash of Clans"
-                    category="Mobile"
-                    item={100}
-                    price={120000}
-                    status="FAILED"
-                    image="overview-3"
-                  />
-                  <TableRow
-                    title="The Royal Game"
-                    category="Mobile"
-                    item={225}
-                    price={200000}
-                    status="PENDING"
-                    image="overview-4"
-                  />
+                  {data.map((item: HistoryTransactionTypes) => {
+                    return (
+                      <TableRow
+                        key={item._id}
+                        title={item.historyVoucherTopup.gameName}
+                        category={item.historyVoucherTopup.category}
+                        item={`${item.historyVoucherTopup.coinQuantity} ${item.historyVoucherTopup.coinName}`}
+                        price={item.value}
+                        status={item.status}
+                        image={`${IMG}/${item.historyVoucherTopup.thumbnail}`}
+                      />
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

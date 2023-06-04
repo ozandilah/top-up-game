@@ -41,16 +41,16 @@
                 <path
                   d="M37 55H-4"
                   stroke="white"
-                  stroke-width="4"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M23 64L-4 64"
                   stroke="#B7B0F4"
-                  stroke-width="4"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <rect
                   x="23"
@@ -74,7 +74,7 @@
                 cy="29.5"
                 r="5.5"
                 stroke="white"
-                stroke-width="4"
+                strokeWidth="4"
               />
             </g>
           </svg>
