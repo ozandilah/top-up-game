@@ -1,15 +1,15 @@
 import Head from "next/head";
 
-import { Inter } from "next/font/google";
-import { useEffect } from "react";
-import AOS from "aos";
-import Navbar from "@/components/organism/Navbar";
 import MainBanner from "@/components/organism/Banner";
-import TransactionStep from "@/components/organism/Transactions-Step";
 import FeaturedGame from "@/components/organism/FeaturedGame";
+import Footers from "@/components/organism/Footer";
+import Navbar from "@/components/organism/Navbar";
 import Reached from "@/components/organism/Reached";
 import Story from "@/components/organism/Story";
-import Footers from "@/components/organism/Footer";
+import TransactionStep from "@/components/organism/Transactions-Step";
+import AOS from "aos";
+import { Inter } from "next/font/google";
+import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 

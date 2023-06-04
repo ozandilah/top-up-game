@@ -1,7 +1,5 @@
-import { JWTPayloadTypes, userTypes } from "@/services/data-types";
 import axios, { AxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
-import jwt_decode from "jwt-decode";
 
 interface callAPIProps extends AxiosRequestConfig {
   token?: boolean;
